@@ -1,0 +1,7 @@
+How to compile:
+
+1.  Follow steps 1 through 4 here https://old.reddit.com/r/Bittboy/comments/ceg0e0/this_is_how_you_can_start_making_bittboy_games/
+1a.  For Xubuntu you will need to install build-essential lib64ncurses-dev, python, python-distutils, and git .
+2.  Link buildroot-bittboy_newish to buildroot-bittboy (ln -s /opt/buildroot-bittboy_newish /opt/buildroot-bittboy as root)
+3.  Run make -f Makefile.bittboy
+4.  Rename sms_sdl to smsplusgx if desired

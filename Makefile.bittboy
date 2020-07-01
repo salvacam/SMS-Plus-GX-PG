@@ -1,5 +1,13 @@
 PRGNAME     = sms_sdl
-CC			= /opt/bittboy-toolchain/bin/arm-buildroot-linux-musleabi-gcc
+
+CHAINPREFIX=/opt/buildroot-bittboy/output/host
+CROSS_COMPILE=$(CHAINPREFIX)/bin/arm-buildroot-linux-musleabi-
+
+CC = $(CROSS_COMPILE)gcc
+
+SYSROOT     := $(shell $(CC) --print-sysroot)
+SDL_CFLAGS  := $(shell $(SYSROOT)/usr/bin/sdl-config --cflags)
+SDL_LIBS    := $(shell $(SYSROOT)/usr/bin/sdl-config --libs)
 
 # Possible choices : rs97, k3s (PAP K3S), sdl, amini, fbdev
 PORT = bittboy
