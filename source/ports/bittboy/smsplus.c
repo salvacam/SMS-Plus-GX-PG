@@ -224,6 +224,14 @@ static uint32_t sdl_controls_update_input(SDLKey k, int32_t p)
 		else
 			selectpressed = 0;
 	}
+	else if (k == SDLK_TAB) //button L
+	{
+		smsp_state(save_slot, 1); //Load 
+	} 
+	else if (k == SDLK_BACKSPACE) //button R
+	{
+		smsp_state(save_slot, 0); //Save
+	}	
 	
 	if (sms.console == CONSOLE_COLECO) input.system = 0;
 	
