@@ -694,10 +694,10 @@ static void Menu()
 		if (currentselection == 7) print_string("Quit", TextRed, 0, 5, 165, backbuffer->pixels);
 		else print_string("Quit", TextWhite, 0, 5, 165, backbuffer->pixels);
 
-		print_string("Build " __DATE__ ", " __TIME__, TextWhite, 0, 5, 175, sdl_screen->pixels);
-		print_string("Based on SMS Plus by Charles Mcdonald", TextWhite, 0, 5, 195, sdl_screen->pixels);
-		print_string("Fork of SMS Plus GX by gameblabla", TextWhite, 0, 5, 210, sdl_screen->pixels);
-		print_string("Extra code from Alekmaul, n2DLib", TextWhite, 0, 5, 225, sdl_screen->pixels);
+		print_string("Build " __DATE__ ", " __TIME__, TextWhite, 0, 5, 175, backbuffer->pixels);
+		print_string("Based on SMS Plus by Charles Mcdonald", TextWhite, 0, 5, 195, backbuffer->pixels);
+		print_string("Fork of SMS Plus GX by gameblabla", TextWhite, 0, 5, 210, backbuffer->pixels);
+		print_string("Extra code from Alekmaul, n2DLib", TextWhite, 0, 5, 225, backbuffer->pixels);
 
         while (SDL_PollEvent(&Event))
         {
