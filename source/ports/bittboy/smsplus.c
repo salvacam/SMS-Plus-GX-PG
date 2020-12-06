@@ -37,6 +37,11 @@ static const int8_t upscalers_available = 2
 #endif
 ;
 
+static uint8_t r_shift = 0, l_shift = 0;
+
+static uint8_t b_select = 0;
+static uint8_t b_start = 0;
+
 static void video_update()
 {
 #ifdef SCALE2X_UPSCALER
@@ -196,14 +201,14 @@ static uint32_t sdl_controls_update_input(SDLKey k, int32_t p)
 		else
 			input.pad[0] &= ~INPUT_DOWN;
 	}
-	else if (k == option.config_buttons[CONFIG_BUTTON_BUTTON1])
+	else if (k == option.config_buttons[CONFIG_BUTTON_BUTTON1] && !r_shift)
 	{
 		if (p)
 			input.pad[0] |= INPUT_BUTTON1;
 		else
 			input.pad[0] &= ~INPUT_BUTTON1;
 	}
-	else if (k == option.config_buttons[CONFIG_BUTTON_BUTTON2])
+	else if (k == option.config_buttons[CONFIG_BUTTON_BUTTON2] && !r_shift)
 	{
 		if (p)
 			input.pad[0] |= INPUT_BUTTON2;
@@ -223,15 +228,50 @@ static uint32_t sdl_controls_update_input(SDLKey k, int32_t p)
 			selectpressed = 1;
 		else
 			selectpressed = 0;
+	}	
+	else if (k == SDLK_LCTRL && r_shift) //button B
+	{ 
+		//fprintf( stderr, "%d: r_shift Keydown B\n", r_shift );
+		smsp_state(save_slot, 0); //Save
 	}
-	else if (k == SDLK_TAB) //button L
+	else if (k == SDLK_LALT && r_shift) //button A
 	{
+		//fprintf( stderr, "%d: r_shift Keydown A\n", r_shift );
 		smsp_state(save_slot, 1); //Load 
-	} 
+	}
 	else if (k == SDLK_BACKSPACE) //button R
 	{
-		smsp_state(save_slot, 0); //Save
-	}	
+		if (p)
+		{
+			r_shift = 1;
+    		//fprintf( stderr, "%d: r_shift Keydown R\n", r_shift );
+		}
+		else 
+		{
+			r_shift = 0;
+    		//fprintf( stderr, "%d: r_shift Keyup R\n", r_shift );
+		}
+		if (r_shift && l_shift)
+		{
+        	quit = 1;
+		}
+	}
+	else if (k == SDLK_TAB) //button L
+	{		
+		if (p)
+		{
+			l_shift = 1;
+		}
+		else 
+		{
+			l_shift = 0;
+		}
+		if (r_shift && l_shift)
+		{			
+        	quit = 1;
+		}
+	}
+	
 	
 	if (sms.console == CONSOLE_COLECO) input.system = 0;
 	
