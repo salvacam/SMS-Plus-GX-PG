@@ -180,14 +180,14 @@ static uint32_t sdl_controls_update_input(SDLKey k, int32_t p)
 		else
 			input.pad[0] &= ~INPUT_UP;
 	}
-	else if (k == option.config_buttons[CONFIG_BUTTON_LEFT])
+	else if (k == option.config_buttons[CONFIG_BUTTON_LEFT] && !r_shift)
 	{
 		if (p)
 			input.pad[0] |= INPUT_LEFT;
 		else
 			input.pad[0] &= ~INPUT_LEFT;
 	}
-	else if (k == option.config_buttons[CONFIG_BUTTON_RIGHT])
+	else if (k == option.config_buttons[CONFIG_BUTTON_RIGHT] && !r_shift)
 	{
 		if (p)
 			input.pad[0] |= INPUT_RIGHT;
@@ -231,13 +231,35 @@ static uint32_t sdl_controls_update_input(SDLKey k, int32_t p)
 	}	
 	else if (k == SDLK_LCTRL && r_shift) //button B
 	{ 
-		//fprintf( stderr, "%d: r_shift Keydown B\n", r_shift );
-		smsp_state(save_slot, 0); //Save
+		if (p)
+		{
+			//fprintf( stderr, "%d: r_shift Keydown B\n", r_shift );
+			smsp_state(save_slot, 0); //Save
+		}
 	}
 	else if (k == SDLK_LALT && r_shift) //button A
 	{
-		//fprintf( stderr, "%d: r_shift Keydown A\n", r_shift );
-		smsp_state(save_slot, 1); //Load 
+		if (p)	
+		{
+			//fprintf( stderr, "%d: r_shift Keydown A\n", r_shift );	
+			smsp_state(save_slot, 1); //Load 
+		}
+	}
+	else if (k == SDLK_LEFT && r_shift) //button Left
+	{
+		if (p)
+			if (save_slot > 0) save_slot--;
+	}
+	else if (k == SDLK_RIGHT && r_shift) //button Left
+	{
+		if (p)
+		{
+			save_slot++;
+			if (save_slot == 10) 
+			{
+				save_slot = 9;
+			}
+		}
 	}
 	else if (k == SDLK_BACKSPACE) //button R
 	{
@@ -999,7 +1021,7 @@ int main (int argc, char *argv[])
 	scale2x_buf = SDL_CreateRGBSurface(SDL_SWSURFACE, VIDEO_WIDTH_SMS*2, 480, 16, 0, 0, 0, 0);
 #endif
 	
-	fprintf(stdout, "CRC : %08X\n", cart.crc);
+	//fprintf(stdout, "CRC : %08X\n", cart.crc);
 	
 	// Set parameters for internal bitmap
 	bitmap.width = VIDEO_WIDTH_SMS;

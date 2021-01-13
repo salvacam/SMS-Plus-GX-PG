@@ -1,6 +1,6 @@
 PRGNAME     = sms_sdl
 
-CHAINPREFIX=/opt/buildroot-bittboy/output/host
+CHAINPREFIX=/opt/buildroot-bittboy
 CROSS_COMPILE=$(CHAINPREFIX)/bin/arm-buildroot-linux-musleabi-
 
 CC = $(CROSS_COMPILE)gcc
